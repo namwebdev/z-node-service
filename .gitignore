@@ -117,3 +117,5 @@ dist
 .pnp.*
 
 uploads/*
+
+package-lock.json
