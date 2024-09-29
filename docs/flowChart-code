@@ -1,0 +1,13 @@
+graph TD
+A[Call API 'login' success] --> B{is_2fa_verified = true?}
+B -->|Yes| C[User verify 2FA ok]
+B -->|No| D{require_2fa = true?}
+D -->|Yes| E[User must verify 2FA]
+D -->|No| F[Show noti that user need to enable 2FA]
+F --> G[User enable 2FA]
+G --> M[User input OTP token and API 'setup_2fa' is called]
+M --> H[User is enable 2FA successfully]
+E --> I[User input OTP token and API 'verify_2fa' is called]
+I --> K[User verify 2FA successfully]
+K --> L[User session is created in DB]
+H --> L
