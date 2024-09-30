@@ -119,3 +119,4 @@ dist
 uploads/*
 
 package-lock.json
+bun.lockb

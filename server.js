@@ -12,9 +12,12 @@ const upload = multer({ dest: "uploads/" });
 
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { s3, bucketName, PutObjectCommand, GetObjectCommand } = require("./s3");
+const { uploadMultiPartRouter } = require("./upload-multi-part.route");
+
+const PORT = 3000;
 
 const app = express();
-
+app.use(express.json());
 app.use(cors());
 
 app.post("/image", upload.single("image"), validateFile, async (req, res) => {
@@ -43,8 +46,9 @@ app.post("/image", upload.single("image"), validateFile, async (req, res) => {
   res.send({ imageUrl });
   unlinkFile(file.path); // remove file was created from uploads folder
 });
+app.use("/upload-multi-part", uploadMultiPartRouter);
 
-app.listen(8080, () => console.info("listening on port 8080"));
+app.listen(PORT, () => console.info(`listening on port ${PORT}`));
 
 function validateFile(req, res, next) {
   if (!req.file) return res.status(400).send({ message: "No file to upload!" });
